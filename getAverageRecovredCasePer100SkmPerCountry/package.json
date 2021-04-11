@@ -1,0 +1,10 @@
+{
+  "name": "get-average-recovred-case-per100-skm-per-country",
+  "version": "1.0.0",
+  "description": "getAverageRecovredCasePer100SkmPerCountry",
+  "main": "index.js",
+  "author": "Almog",
+  "dependencies": {
+    "axios": "*"
+  }
+}

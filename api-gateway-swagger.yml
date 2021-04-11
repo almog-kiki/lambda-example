@@ -1,0 +1,195 @@
+swagger: '2.0'
+
+info:
+  version: '1.0'
+  description: 'covid 19 endpoint test'
+  title: Covid19
+  
+schemes:
+  - https
+  
+paths:
+  /:
+    get:
+      tags:
+        - covid19
+      description: covid19 HTML web page containing API usage information
+      consumes:
+        - application/json
+      produces:
+        - text/html
+      responses:
+        '200':
+          description: Successful operation
+          headers:
+            Content-Type:
+              type: string
+              description: Media type of request
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: '200'
+            responseParameters:
+              method.response.header.Content-Type: '''text/html'''
+            responseTemplates:
+              text/html: |-
+                <html>
+                    <head>
+                        <style>
+                        body {
+                            color: #333;
+                            font-family: Sans-serif;
+                            max-width: 800px;
+                            margin: auto;
+                        }
+                        </style>
+                    </head>
+                    <body>
+                        <h1>Welcome to your Covid 19 API</h1>
+                        <p>
+                            You have successfully deployed your first API. You are seeing this HTML page because the <code>GET</code> method to the root resource of your API returns this content as a Mock integration.
+                        </p>
+                        <p>
+                            
+                            The covid 19 API contains the 
+                            <code>/getTop5Countries</code> 
+                            and 
+                            <code>/getAvgRecovredCasePer100Skm</code>
+                            resources. 
+                        </p>
+                        <p>
+                            You can use a REST client such as <a href="https://www.getpostman.com/" target="_blank">Postman</a> to test the <code>POST</code> methods in your API to create a new pet. Use the sample body below to send the <code>POST</code> request:
+                        </p>
+                    </body>
+                </html>
+        passthroughBehavior: when_no_match
+        requestTemplates:
+          application/json: '{"statusCode": 200}'
+        type: mock
+  /getTopCountriesRecoveredCasesInTheLastDays:
+    get:
+      tags:
+        - getTopCountriesRecoveredCasesInTheLastDays
+      summary: List of x With Most Recovered Per Capita
+      produces:
+        - application/json
+      responses:
+        '200':
+          schema:
+            $ref: '#/definitions/TopCountries'
+          description: Successful operation
+          headers:
+            Access-Control-Allow-Origin:
+              type: string
+              description: URI that may access the resource
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: '200'
+            responseParameters:
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+        uri: 'http://almog.execute-api.us-east-2.amazonaws.com/getTopCountriesRecoveredCasesInTheLastDays'
+        passthroughBehavior: when_no_match
+        httpMethod: GET
+        type: http
+  /getTop5Countries:
+    get:
+      tags:
+        - getTop5Countries
+      summary: List of 5 With Most Recovered Per Capita
+      produces:
+        - application/json
+      responses:
+        '200':
+          schema:
+            $ref: '#/definitions/TopCountries'
+          description: Successful operation
+          headers:
+            Access-Control-Allow-Origin:
+              type: string
+              description: URI that may access the resource
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: '200'
+            responseParameters:
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+        uri: 'http://almog.execute-api.us-east-2.amazonaws.com/getTop5Countries'
+        passthroughBehavior: when_no_match
+        httpMethod: GET
+        type: http
+  /getAvgRecovredCasePer100Skm:
+    get:
+      tags:
+        - getAvgRecovredCasePer100SkmPerCountry
+      summary: getAvgRecovredCasePer100SkmPerCountry
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Successful operation
+          schema:
+            $ref: '#/definitions/AvgRecoveredArr'
+          headers:
+            Access-Control-Allow-Origin:
+              type: string
+              description: URI that may access the resource
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: '200'
+            responseParameters:
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+        uri: 'http://almog.execute-api.us-east-2.amazonaws.com/getAvgRecovredCasePer100Skm'
+        passthroughBehavior: when_no_match
+        httpMethod: GET
+        type: http
+definitions:
+  TopCountries:
+    type: array
+    items:
+      $ref: '#/definitions/Country'
+  Country:
+    type: object
+    properties:
+      country:
+        type: string
+      amount_of_recovred:
+        type: string
+  AvgRecoveredArr:
+    type: array
+    items:
+      $ref: '#/definitions/AvgRecovered'
+  Empty:
+    type: object
+  AvgRecovered:
+    type: object
+    properties:
+      country:
+        type: string
+      avg:
+        type: string
+x-amazon-apigateway-documentation:
+  version: v2.1
+  createdDate: '2016-11-17T07:03:59Z'
+  documentationParts:
+    - location:
+        type: API
+      properties:
+        info:
+          description: Your first API with Amazon API Gateway. This is a sample API that integrates via HTTP with our demo covid 19 endpoints
+    - location:
+        type: METHOD
+        method: GET
+      properties:
+        tags:
+          - getTop5Countries
+        description: covid 19 HTML web page containing API usage information
+    - location:
+        type: METHOD
+        path: '/getTop5Countries'
+        method: GET
+      properties:
+        tags:
+          - getTop5Countries
+        summary: List of 5 With Most Recovered Per Capita
